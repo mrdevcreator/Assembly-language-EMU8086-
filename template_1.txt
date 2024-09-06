@@ -1,0 +1,80 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+   X DB ? 
+   Y DB ?
+   Z DB ?
+   
+.CODE  
+    MAIN PROC
+        
+        MOV AX, @DATA
+        MOV DS, AX
+        
+        MOV AX,329
+        MOV BL,10
+        
+        DIV BL
+        
+        MOV X,AH 
+        
+        MOV AH,0
+        
+        
+        ;MOV AX,AL
+        
+        DIV BL
+        
+        MOV Y,AH
+        MOV Z,AL 
+        
+        
+        MOV BL,X
+        MOV BH,Y
+        MOV DH,Z
+                 
+        CMP BL,BH
+        JG IF
+        JL ELSE
+        
+        
+        IF:
+         CMP BL,DH
+         JG IF_1
+         JG ELSE
+         
+         IF_1:
+          MOV AH,2
+          MOV DL,X
+          ADD DL,'0'
+          INT 21H
+          JMP EXIT 
+          
+        ELSE:
+         CMP BH,DH
+         JG IF_2
+         JMP ELSE2
+         
+         IF_2:
+          MOV AH,2
+          MOV DL,Y
+          ADD DL,'0'
+          INT 21H
+          JMP EXIT 
+          
+        ELSE2:
+         MOV AH,2
+         MOV DL,Z
+         ADD DL,'0'
+         INT 21H
+         JMP EXIT 
+
+        
+        
+        EXIT:
+        
+        MOV AX, 4C00H
+        INT 21H 
+        
+    MAIN ENDP
+    END MAIN                   
